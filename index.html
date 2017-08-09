@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <title>Cash Flow Calculation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
+  <body ng-app="app">
+    <div class="container">
+      <h4>Cash Flow Calculation</h4>
+      <div ng-controller="LoanController as l">
+        <form ng-submit="l.calculate()" class="form-inline">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">Amount $</div>
+              <input type="text" class="form-control" ng-model="l.amount" size="15" placeholder="Loan amount">
+            </div>
+            <div class="input-group">
+              <div class="input-group-addon">Term</div>
+              <input type="text" class="form-control" ng-model="l.term" size="5" placeholder="months">
+            </div>
+            <div class="input-group">
+              <div class="input-group-addon">Rate</div>
+              <input type="text" class="form-control" ng-model="l.rate" size="5" placeholder="% APR">
+            </div>
+            <input class="btn btn-primary" type="submit" value="Calculate">
+          </div>
+        </form>
+        <br>
+        <span>Monthly payment: ${{l.monthlyPayment}}</span>
+        <br>
+        <table class="table table-hover table-striped">
+          <tr>
+            <th>Month</th>
+            <th>Interest</th>
+            <th>Principal</th>
+            <th>Remaining Balance</th>
+          </tr>
+          <tr ng-repeat="periodicPayment in l.loanTable">
+            <td><span>{{periodicPayment.paymentNumber}}</span></td>
+            <td><span>${{periodicPayment.interest}}</span></td>
+            <td><span>${{periodicPayment.principalPayment}}</span></td>
+            <td><span>${{periodicPayment.principal}}</span></td>
+          </tr>
+        </table>
+      </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="/controllers/loanController.js"></script>
+  </body>
+</html>
