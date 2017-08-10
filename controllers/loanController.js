@@ -7,7 +7,7 @@ var app = angular.module('app', []);
     var count;
     var longestTerm = 0;
     
-    vm.loanTable = [];
+    // vm.loanTable = [];
     vm.loanTableArray = [];
     vm.poolTable = [];
     

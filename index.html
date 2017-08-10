@@ -35,7 +35,7 @@
               <input type="text" class="form-control" ng-model="l.rate[$index]" size="5" placeholder="% APR">
             </div>
           </div>  
-          <input class="btn btn-primary" type="submit" value="Calculate">
+          <input ng-show="l.loanCountArray.length > 0" class="btn btn-primary" type="submit" value="Calculate">
         </form>
 
         <div ng-repeat="loanTable in l.loanTableArray track by $index">
@@ -56,21 +56,23 @@
           </table>
         </div>
 
-        <span>Pool Level</span>
-        <table class="table table-hover table-striped">
-          <tr>
-            <th>Month</th>
-            <th>Interest</th>
-            <th>Principal</th>
-            <th>Remaining Balance</th>
-          </tr>
-          <tr ng-repeat="periodicPayment in l.poolTable">
-            <td><span>{{periodicPayment.paymentNumber}}</span></td>
-            <td><span>${{periodicPayment.interest | number:2}}</span></td>
-            <td><span>${{periodicPayment.principalPayment | number:2}}</span></td>
-            <td><span>${{periodicPayment.principal | number:2}}</span></td>
-          </tr>
-        </table>     
+        <div ng-show="l.loanTableArray.length > 0">
+          <h5>Pool Level</h5>
+          <table class="table table-hover table-striped">
+            <tr>
+              <th>Month</th>
+              <th>Interest</th>
+              <th>Principal</th>
+              <th>Remaining Balance</th>
+            </tr>
+            <tr ng-repeat="periodicPayment in l.poolTable">
+              <td><span>{{periodicPayment.paymentNumber}}</span></td>
+              <td><span>${{periodicPayment.interest | number:2}}</span></td>
+              <td><span>${{periodicPayment.principalPayment | number:2}}</span></td>
+              <td><span>${{periodicPayment.principal | number:2}}</span></td>
+            </tr>
+          </table>     
+        </div>
       </div>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="/controllers/loanController.js"></script>
