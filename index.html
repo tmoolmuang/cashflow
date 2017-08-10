@@ -9,26 +9,54 @@
     <div class="container">
       <h4>Cash Flow Calculation</h4>
       <div ng-controller="LoanController as l">
-        <form ng-submit="l.calculate()" class="form-inline">
-          <div class="form-group">
+        <form ng-submit="l.getLoanCount()" class="form-inline">
+          <div class="form-group">            
+            <div class="input-group">
+              <div class="input-group-addon">How many loans?</div>
+              <input type="text" class="form-control" ng-model="l.loanCount" size="5">
+            </div>
+            <input class="btn btn-primary" type="submit" value="Enter">
+          </div>
+        </form>
+
+        <form ng-submit="l.calculate()">
+          <div class="form-group" ng-repeat="values in l.loanCountArray track by $index">
+            <h5>Enter Loan {{$index+1}}:</h5>
             <div class="input-group">
               <div class="input-group-addon">Amount $</div>
-              <input type="text" class="form-control" ng-model="l.amount" size="15" placeholder="Loan amount">
+              <input type="text" class="form-control" ng-model="l.amount[$index]" size="15" placeholder="Loan amount">
             </div>
             <div class="input-group">
               <div class="input-group-addon">Term</div>
-              <input type="text" class="form-control" ng-model="l.term" size="5" placeholder="months">
+              <input type="text" class="form-control" ng-model="l.term[$index]" size="5" placeholder="months">
             </div>
             <div class="input-group">
               <div class="input-group-addon">Rate</div>
-              <input type="text" class="form-control" ng-model="l.rate" size="5" placeholder="% APR">
+              <input type="text" class="form-control" ng-model="l.rate[$index]" size="5" placeholder="% APR">
             </div>
-            <input class="btn btn-primary" type="submit" value="Calculate">
-          </div>
+          </div>  
+          <input class="btn btn-primary" type="submit" value="Calculate">
         </form>
-        <br>
-        <span>Monthly payment: ${{l.monthlyPayment}}</span>
-        <br>
+
+        <div ng-repeat="loanTable in l.loanTableArray track by $index">
+          <h5>Loan {{$index+1}}</h5>
+          <table class="table table-hover table-striped">
+            <tr>
+              <th>Month</th>
+              <th>Interest</th>
+              <th>Principal</th>
+              <th>Remaining Balance</th>
+            </tr>
+            <tr ng-repeat="periodicPayment in loanTable">
+              <td><span>{{periodicPayment.paymentNumber}}</span></td>
+              <td><span>${{periodicPayment.interest}}</span></td>
+              <td><span>${{periodicPayment.principalPayment}}</span></td>
+              <td><span>${{periodicPayment.principal}}</span></td>
+            </tr>
+          </table>
+        </div>
+
+        <span>Pool Level</span>
         <table class="table table-hover table-striped">
           <tr>
             <th>Month</th>
@@ -36,13 +64,13 @@
             <th>Principal</th>
             <th>Remaining Balance</th>
           </tr>
-          <tr ng-repeat="periodicPayment in l.loanTable">
+          <tr ng-repeat="periodicPayment in l.poolTable">
             <td><span>{{periodicPayment.paymentNumber}}</span></td>
-            <td><span>${{periodicPayment.interest}}</span></td>
-            <td><span>${{periodicPayment.principalPayment}}</span></td>
-            <td><span>${{periodicPayment.principal}}</span></td>
+            <td><span>${{periodicPayment.interest | number:2}}</span></td>
+            <td><span>${{periodicPayment.principalPayment | number:2}}</span></td>
+            <td><span>${{periodicPayment.principal | number:2}}</span></td>
           </tr>
-        </table>
+        </table>     
       </div>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="/controllers/loanController.js"></script>
